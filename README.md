@@ -33,7 +33,7 @@ The project is ment to be an IoT, embedded and computer vision learning project 
 - Proximity sensor
 - Humidity and temperature sensor (not needed, just because)
 
-Planned software, IoT platform and programming languages
+### Planned Software, Platforms and Languages
 
 - IBM Bluemix
 - Arduino IDE
