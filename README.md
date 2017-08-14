@@ -48,7 +48,7 @@ The hardware for the project is still arriving from the hardworking republic of 
 
 The components have all arrived, so now there are no more excuses.
 
-First thing to do is to see if I can compile a simple program on the ESP8266, and get it connected to my WiFi.
+First thing I want to do is to see if I can compile a simple program on the ESP8266, and get it connected to my WiFi, since this is the most important component in this project.
 
 I decided to use the Arduino IDE to program the ESP8266, as this is the framework I am most experienced with.
 To do this you first have to add the ESP9266 board by using the board manager in the Arduino IDE, by following the 3 steps below.
@@ -58,6 +58,10 @@ To do this you first have to add the ESP9266 board by using the board manager in
 - Open Boards Manager from Tools > Board menu and install the ESP8266 platform.
 
 After that you select the Generic ESP8266, before uploading the code.
+But to upload code, it needs to be connected to your computer somehow.
+
+The ESP8266 can be hooked up by using an FTDI, which is serial to usb, connected as shown below.
+![](https://github.com/steinio/Smart-Garage-Door/Images/esp8266toFTDI.png)
 
 Just to be sure that the device actually works before uploading my own code, I will test the AT interface over serial to see if I can get a response.
 This is done by opening the serial monitor and write "AT\r\n" and click send, at 115200 baud rate.
