@@ -61,7 +61,7 @@ After that you select the Generic ESP8266, before uploading the code.
 But to upload code, it needs to be connected to your computer somehow.
 
 The ESP8266 can be hooked up by using an FTDI, which is serial to usb, connected as shown below.
-![](https://github.com/steinio/Smart-Garage-Door/Images/esp8266toFTDI.png "ESP8266 to FTDI wire scheme)
+![](esp8266toFTDI.png "ESP8266 to FTDI wire scheme")
 
 Just to be sure that the device actually works before uploading my own code, I will test the AT interface over serial to see if I can get a response.
 This is done by opening the serial monitor and write "AT\r\n" and click send, at 115200 baud rate.
@@ -69,7 +69,7 @@ You should then receive an "OK" message in response if everything is working, wh
 
 The WiFi test code is quite simple, made possible by the ESP8266 wifi library.
 
-```C
+```c_cpp
 // Import required libraries
 #include "ESP8266WiFi.h"
 
