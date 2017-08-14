@@ -43,3 +43,59 @@ The project is ment to be an IoT, embedded and computer vision learning project 
 - MQTT
 
 The hardware for the project is still arriving from the hardworking republic of China, so stay tuned.
+
+## Day 1 - Initial Testing
+
+The components have all arrived, so now there are no more excuses.
+
+First thing to do is to see if I can compile a simple program on the ESP8266, and get it connected to my WiFi.
+
+I decided to use the Arduino IDE to program the ESP8266, as this is the framework I am most experienced with.
+To do this you first have to add the ESP9266 board by using the board manager in the Arduino IDE, by following the 3 steps below.
+
+- Open the Preferences window.
+- Enter the URL: http://arduino.esp8266.com/package_esp8266com_index.json into Additional Board Manager URLs field.
+- Open Boards Manager from Tools > Board menu and install the ESP8266 platform.
+
+After that you select the Generic ESP8266, before uploading the code.
+
+Just to be sure that the device actually works before uploading my own code, I will test the AT interface over serial to see if I can get a response.
+This is done by opening the serial monitor and write "AT\r\n" and click send, at 115200 baud rate.
+You should then receive an "OK" message in response if everything is working, which it did.
+
+The WiFi test code is quite simple, made possible by the ESP8266 wifi library.
+
+```
+// Import required libraries
+#include "ESP8266WiFi.h"
+
+// WiFi parameters
+const char* ssid = "Windows 10 Update";
+const char* password = "DefNotAVirus";
+
+void setup(void)
+{ 
+// Start Serial
+Serial.begin(115200);
+
+// Connect to WiFi
+WiFi.begin(ssid, password);
+while (WiFi.status() != WL_CONNECTED) {
+delay(500);
+Serial.print(".");
+}
+Serial.println("");
+Serial.println("WiFi connected");
+
+// Print the IP address
+Serial.println(WiFi.localIP());
+
+}
+
+void loop() {
+
+}
+```
+When running, this should print out "WifI connected" followed by the IP address it was given.
+
+After connecting my RX to my TX instead of the RX from my FTDI to the ESP8266, I could finally upload some code to my device and see that everything is working as it should.
