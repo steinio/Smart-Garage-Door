@@ -61,6 +61,7 @@ After that you select the Generic ESP8266, before uploading the code.
 But to upload code, it needs to be connected to your computer somehow.
 
 The ESP8266 can be hooked up by using an FTDI, which is serial to usb, connected as shown below.
+
 ![](Images/esp8266toFTDI.png "ESP8266 to FTDI wire scheme")
 
 Just to be sure that the device actually works before uploading my own code, I will test the AT interface over serial to see if I can get a response.
