@@ -54,7 +54,7 @@ I decided to use the Arduino IDE to program the ESP8266, as this is the framewor
 To do this you first have to add the ESP9266 board by using the board manager in the Arduino IDE, by following the 3 steps below.
 
 - Open the Preferences window.
-- Enter the URL: http://arduino.esp8266.com/package_esp8266com_index.json into Additional Board Manager URLs field.
+- Enter the URL: [http://arduino.esp8266.com/package_esp8266com_index.json](http://arduino.esp8266.com/package_esp8266com_index.json) into Additional Board Manager URLs field.
 - Open Boards Manager from Tools > Board menu and install the ESP8266 platform.
 
 After that you select the Generic ESP8266, before uploading the code.
