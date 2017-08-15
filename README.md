@@ -1,7 +1,5 @@
 ![](Images/garagedoor.jpg "Smart Garage Door")
 
-This will be a repository for a smart garage door project.
-
 This project was spawned from myself always forgetting to close the garage door when leaving the house and when parking the car. 
 
 The current garage door is opened and closed by an electric motor and is controlled by wireless switches (one in the car and one in the house), aswell as a wired switch inside the garage. The door is planned to be controlled  via the same input as the wired switch, which runs on 18V.
