@@ -1,4 +1,5 @@
-# Smart Garage Door
+![](Images/garagedoor.jpg "Smart Garage Door")
+
 This will be a repository for a smart garage door project.
 
 This project was spawned from myself always forgetting to close the garage door when leaving the house and when parking the car. 
