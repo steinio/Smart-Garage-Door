@@ -57,7 +57,7 @@ To do this I first had to add the ESP9266 board by using the board manager in th
 - Open Boards Manager from Tools > Board menu and install the ESP8266 platform.
 
 After that I selected the Generic ESP8266, before uploading the code.
-But to upload code, it needs to be connected to your computer somehow.
+But to upload code, it needs to be connected to my computer somehow.
 
 I connected the ESP8266 by using an FTDI, which is serial to usb, connected as shown below.
 
