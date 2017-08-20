@@ -115,3 +115,89 @@ Next step for me is to see that I can set up my ESP8266 and connect it to the IB
 Luckely for me, there is a how-to page for doing this on IBM's dev pages.
 
 By following the instructions [here](https://developer.ibm.com/recipes/tutorials/connect-an-esp8266-with-the-arduino-sdk-to-the-ibm-iot-foundation/), I managed to set up my device rather quick and the entire process took less than 30 minutes.
+
+The Hello World program just just a counter sending integers to IBM Watson IoT Platform by using the MQTT library for publishing and subscribing data in an easy way, as seen below.
+
+```c_cpp
+/**
+ * Helloworld style, connect an ESP8266 to the IBM IoT Foundation
+ * 
+ * Author: Ant Elder
+ * License: Apache License v2
+ */
+#include <ESP8266WiFi.h>
+#include <PubSubClient.h> // https://github.com/knolleary/pubsubclient/releases/tag/v2.3
+
+//-------- Customise these values -----------
+char* ssid = "Altibox492434";
+char* password = "64cLQu8J";
+
+#define ORG "bofe0l"
+#define DEVICE_TYPE "ESP8266"
+#define DEVICE_ID "ESP_01"
+#define TOKEN "Qpu&dgdtznlpB2QDm5"
+//-------- Customise the above values --------
+
+char server[] = ORG ".messaging.internetofthings.ibmcloud.com";
+char topic[] = "iot-2/evt/status/fmt/json";
+char authMethod[] = "use-token-auth";
+char token[] = TOKEN;
+char clientId[] = "d:" ORG ":" DEVICE_TYPE ":" DEVICE_ID;
+
+WiFiClient wifiClient;
+PubSubClient client(server, 1883, NULL, wifiClient);
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println();
+
+  Serial.print("Connecting to "); Serial.print(ssid);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  } 
+  Serial.println("");
+
+  Serial.print("WiFi connected, IP address: "); Serial.println(WiFi.localIP());
+}
+
+int counter = 0;
+
+void loop() {
+
+  if (!!!client.connected()) {
+    Serial.print("Reconnecting client to ");
+    Serial.println(server);
+    while (!!!client.connect(clientId, authMethod, token)) {
+      Serial.print(".");
+      delay(500);
+    }
+    Serial.println();
+  }
+
+  String payload = "\{";
+  payload += "d:{Steinio:ESP8266.ESP_01,counter:";
+  payload += counter;
+  payload += "}}";
+ 
+  Serial.print("Sending payload: ");
+  Serial.println(payload);
+ 
+  if (client.publish(topic, (char*) payload.c_str())) {
+    Serial.println("Publish ok");
+  } 
+  else {
+    Serial.println("Publish failed");
+  }
+
+  ++counter;
+  delay(10000);
+}
+
+```
+I had to modify the original "String payload = ..." code because it couldn't parse the string.
+
+After uploading the code and activating the device, I went to my IBM Bluemix Device Dashboard to find my device was connected.
+![](Images/bluemix1.png "IBM Bluemix Devices")
+I can now access my data on my IBM Watson IoT Platform's Dashboard.
