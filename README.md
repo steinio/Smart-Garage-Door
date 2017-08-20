@@ -176,8 +176,7 @@ void loop() {
     Serial.println();
   }
 
-  String payload = "\{";
-  payload += "d:{Steinio:ESP8266.ESP_01,counter:";
+  String payload = "{\"d\":{\"counter\":";
   payload += counter;
   payload += "}}";
  
@@ -195,7 +194,7 @@ void loop() {
   delay(10000);
 }
 ```
-I had to modify the original "String payload = ..." code because it couldn't parse the string.
+I had to modify the original "String payload = ..." code because it was missing escape characters and had unnecessary data.
 
 After uploading the code and activating the device, I went to my IBM Bluemix Device Dashboard to find my device was connected.
 
