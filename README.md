@@ -194,10 +194,11 @@ void loop() {
   ++counter;
   delay(10000);
 }
-
 ```
 I had to modify the original "String payload = ..." code because it couldn't parse the string.
 
 After uploading the code and activating the device, I went to my IBM Bluemix Device Dashboard to find my device was connected.
-![](Images/bluemix1.png "IBM Bluemix Devices")
+
+![](Images/bluemix1.PNG "IBM Bluemix Devices")
+
 I can now access my data on my IBM Watson IoT Platform's Dashboard.
