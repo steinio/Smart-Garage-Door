@@ -43,7 +43,7 @@ The project is ment to be an IoT, embedded and computer vision learning project 
 
 The hardware for the project is still arriving from the hardworking republic of China, so stay tuned.
 
-## Day 1 - Initial Testing
+## Day 1: ESP8266 - Hello World
 
 The components have all arrived, so now there are no more excuses.
 
@@ -109,3 +109,9 @@ When running, this printed out
 Wifi connected
 192.168.1.245
 ```
+## Day 2: ESP8266 with MQTT and IBM Bluemix - Hello World
+
+Next step for me is to see that I can set up my ESP8266 and connect it to the IBM Watson IoT Platform.
+Luckely for me, there is a how-to page for doing this on IBM's dev pages.
+
+By following the instructions [here](https://developer.ibm.com/recipes/tutorials/connect-an-esp8266-with-the-arduino-sdk-to-the-ibm-iot-foundation/), I managed to set up my device rather quick and the entire process took less than 30 minutes.
