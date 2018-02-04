@@ -211,3 +211,202 @@ For a prettier and fully customizable vizualization of the data, I created a new
 The next step for me now will be to use my IBM Bluemix Platform and connect a sensor to the ESP8266 and read this to the platform.
 After that I will also try and subscribe to data, to be able to send data to the ESP8266 from the platform, enabling me to connect my smartphone or Raspberry Pi and communicating between them all, not only on the local network.
 
+## Day 137: The return of the procrastinator
+After day 2 I played abit with the bluemix framework and its mobile app, only to find that the mobile app wasn't able to connect directly with the IoT platform, which induced a tech depression, and I put some distance between me and this project.
+
+Then after a while I saw my project lying in my closet, and I realized why am I not finishing this project? Atleast the initial plan.
+
+So I found a much easier IoT platform with much less overhead than IBM Bluemix, and a functioning mobile app, also known as thinger.io.
+
+I registered an account, read the tutorials, and made my initial project with an automatic garage door opener.
+This implemented will now automatically close the garage door after a user specified time, aswell as send me an email if the door has been open longer than a specified time. Of course it is also possible to open and close it manually.
+I even got to use the EEPROM on the ESP8266, to store some initial values, in the event of a sudden reboot.
+
+This code below is the first iteration, and I have allready discovered some bugs and issues I want to improve. More on that later.
+
+```c_cpp
+#include <SPI.h>
+#include <ESP8266WiFi.h>
+#include <ThingerWifi.h>
+#include <SimpleTimer.h>
+#include <EEPROM.h> 
+
+ThingerWifi thing("steinio", "esp8266_1", "LDzoT4e&HewL");
+
+int MSW = 0;                          // Magnetic switch
+int SW = 2;                           // Garage door opener switch
+
+byte switchToggleDoorOpen = 0;
+byte doorState= 0;                    // 1 = open, 2 = just closed, 3 = closed, 4 = just opened)"
+byte prevDoorState = 0;               // 0 = "Open", 1 = "Closed"
+byte currDoorState = 0;               // 0 = "Open", 1 = "Closed"
+String doorStatus = "";               // "Door has been open for X min", "Door is closed"
+
+unsigned int doorStartTime_ms = 0;
+unsigned int doorTimeInterval_ms = 0;
+unsigned int autoCloseTimer = 0;
+byte autoCloseInterval = 0;
+
+byte doorAlertInterval = 0;
+unsigned long doorAlertTimer = 0;
+
+SimpleTimer timer;
+int doorStateTimerId;
+int functionCallSpeed_ms = 100;
+
+void setup(){
+
+  EEPROM.begin(512);
+  doorAlertInterval = EEPROM.read(0);
+  autoCloseInterval = EEPROM.read(1);    
+  
+  pinMode(SW, OUTPUT);
+  pinMode(MSW, INPUT_PULLUP);
+  digitalWrite(SW, LOW);
+  
+  currDoorState = readDoorState();
+  if (currDoorState == 1)
+  {
+    doorStartTime_ms = millis();
+    doorStatus = "Open";
+  }
+  else
+  {
+    doorStatus = "Closed";
+    doorTimeInterval_ms = 0;
+  }
+  delay(50);
+
+  doorStateTimerId = timer.setInterval(functionCallSpeed_ms, checkDoorState);
+  
+  thing.add_wifi("Altibox492434", "64cLQu8J");
+  
+  thing["garageDoorSwitch"] << [](pson& sw)
+  {
+    if(sw.is_empty())
+      sw = false;
+    else
+      toggle_switch();
+  };
+  
+  thing["doorStatus"] >> [](pson& out)
+  {
+    out = doorStatus;
+  };
+
+  thing["autoCloseInterval"] << inputValue(autoCloseInterval,
+  {
+    autoCloseTimer = (doorTimeInterval_ms / 60000) + autoCloseInterval;
+    EEPROM.write(1, autoCloseInterval);
+    EEPROM.commit();   
+  });
+  
+  thing["doorAlertInterval"] << inputValue(doorAlertInterval,{
+    doorAlertTimer = (doorTimeInterval_ms / 60000) + doorAlertInterval;    
+    EEPROM.write(0, doorAlertInterval);
+    EEPROM.commit();  
+  });
+
+  thing["doorStatusTimeInterval"] >> [](pson& out)
+  {
+    String doorStatusTimeInterval;
+    if (doorStatus == "Open")
+    {      
+       int seconds = doorTimeInterval_ms%60000;
+       seconds = seconds/1000;
+       doorStatusTimeInterval = String("Door has been OPEN for ") + (doorTimeInterval_ms / 60000) + String("m ") +  seconds + String("s");
+    } 
+    else if (doorStatus == "Closed")
+    {
+       doorStatusTimeInterval = String("Door is closed");
+    }
+    else
+    {
+       doorStatusTimeInterval = String("Door in unknown state");
+    }
+    out = doorStatusTimeInterval.c_str();
+  };
+}
+void loop()
+{
+  timer.run();
+  thing.handle();
+}
+
+void door_alert() 
+{
+    pson data;
+    data["The garage door has been OPEN for"] = doorTimeInterval_ms / 60000;
+    thing.call_endpoint("doorAlert", data);
+}
+
+void toggle_switch()
+{
+  digitalWrite(SW, HIGH);
+  delay(500);
+  digitalWrite(SW, LOW);  
+}
+
+byte readDoorState()
+{
+  if (digitalRead(MSW))
+    return 0;
+  else
+    return 1;    
+}
+
+byte checkDoorState(byte x, byte y){
+  byte state;  
+  if (x != 0 && y != 0){
+    state = 1;
+  }
+   if (x == 0 && y != 0){
+    state = 2;
+  }
+   if (x == 0 && y == 0){
+    state = 3;
+  }
+  if (x != 0 && y == 0){
+    state = 4;
+  }  
+  return state;
+}
+
+void checkDoorState()
+{
+  prevDoorState = currDoorState;     
+  currDoorState = readDoorState();
+  doorState = checkDoorState(currDoorState, prevDoorState);
+  switch (doorState) {
+    case 1:
+          doorTimeInterval_ms = (millis() - doorStartTime_ms);              
+          if (autoCloseInterval != 0){                           
+              if (doorTimeInterval_ms >= autoCloseTimer * 60000){
+                  toggle_switch();
+                  autoCloseTimer = (doorTimeInterval_ms / 60000) + autoCloseInterval;                                     
+              }                                  
+          }
+          if (doorAlertInterval != 0){                           
+              if (doorTimeInterval_ms >= doorAlertTimer * 60000){
+                  door_alert();
+                  doorAlertTimer = (doorTimeInterval_ms / 60000) + doorAlertInterval;                                     
+              }                                  
+          }          
+          break;
+    case 2:
+          doorStatus = "Closed"; 
+          doorTimeInterval_ms = 0;              
+          autoCloseTimer = autoCloseInterval;
+          doorAlertTimer = doorAlertInterval; 
+          thing.write_bucket("garageBucket", "doorStatus");
+          break;
+    case 3:
+          break;
+    case 4:
+          doorStartTime_ms = millis(); 
+          doorStatus = "Open";                           
+          thing.write_bucket("garageBucket", "doorStatus");
+          break;    
+  }  
+}
+```
