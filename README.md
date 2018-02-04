@@ -231,7 +231,10 @@ This code below is the first iteration, and I have allready discovered some bugs
 #include <SimpleTimer.h>
 #include <EEPROM.h> 
 
-ThingerWifi thing("steinio", "esp8266_1", "LDzoT4e&HewL");
+char* thingerUser = "MYUSERNAME";
+char* myDeviceKey = "MYDEVICEKEY";
+char* myDeviceName = "esp8266_1";
+ThingerWifi thing(thingerUser, myDeviceName, myDeviceKey);
 
 int MSW = 0;                          // Magnetic switch
 int SW = 2;                           // Garage door opener switch
