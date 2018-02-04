@@ -214,15 +214,16 @@ After that I will also try and subscribe to data, to be able to send data to the
 ## Day 137: The return of the procrastinator
 After day 2 I played abit with the bluemix framework and its mobile app, only to find that the mobile app wasn't able to connect directly with the IoT platform, which induced a tech depression, and I put some distance between me and this project.
 
-Then after a while I saw my project lying in my closet, and I realized why am I not finishing this project? Atleast the initial plan.
+Then after a while I saw my project lying in my closet, and I wondered why am I not finishing this project? Atleast the initial plan?
 
-So I found a much easier IoT platform with much less overhead than IBM Bluemix, and a functioning mobile app, also known as thinger.io.
+So I found a much easier IoT platform with alot less overhead than IBM Bluemix, AND with a functioning mobile app, also known as [thinger.io](http://thinger.io).
 
-I registered an account, read the tutorials, and made my initial project with an automatic garage door opener.
-This implemented will now automatically close the garage door after a user specified time, aswell as send me an email if the door has been open longer than a specified time. Of course it is also possible to open and close it manually.
-I even got to use the EEPROM on the ESP8266, to store some initial values, in the event of a sudden reboot.
+I registered an account, read the tutorials, and made my initial automatic garage door opener project.
 
-This code below is the first iteration, and I have allready discovered some bugs and issues I want to improve. More on that later.
+This implemented will now automatically close the garage door after having been open a user specified time, aswell as send me an email if the door has been open longer than a user specified time. Of course it is also possible to open and close it manually.
+I even got to use the EEPROM on the ESP8266, to store some initial values, in the event of a sudden reboot. Neat.
+
+This code below is the first iteration, and I have already discovered some bugs and issues I want to improve. More on that later.
 
 ```c_cpp
 #include <SPI.h>
@@ -413,3 +414,7 @@ void checkDoorState()
   }  
 }
 ```
+
+I also made a simple Dashboard on my thinger userpage, so now I am able to control this controller from both my dashboard in a webbrowser and via the mobile app.
+
+![](Images/thingerDashboard1.PNG "Thinger.io Dashboard for the Garaga Door Opener")
