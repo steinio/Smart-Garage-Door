@@ -418,3 +418,5 @@ void checkDoorState()
 I also made a simple Dashboard on my thinger userpage, so now I am able to control this controller from both my dashboard in a webbrowser and via the mobile app.
 
 ![](Images/thingerDashboard1.PNG "Thinger.io Dashboard for the Garaga Door Opener")
+
+See you in another 137 days.
