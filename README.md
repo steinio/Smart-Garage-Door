@@ -224,8 +224,8 @@ I registered an account, read the tutorials, and made my initial automatic garag
 This implementation will now 
 
 - Open and close manually via web interface and mobile app.
-- Monitor garaga door state (open or closed).
-- Automatically close the garage door after having been open longer than a user specified time.
+- Monitor the garage door state (open or closed).
+- Automatically close the garage door after having been open for longer than a user specified time.
 - Send an alarm to my email if the door has been open for longer than a user specified time.
 
 
