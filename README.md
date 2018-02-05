@@ -215,12 +215,20 @@ After that I will also try and subscribe to data, to be able to send data to the
 After day 2 I played abit with the bluemix framework and its mobile app, only to find that the mobile app wasn't able to connect directly with the IoT platform, which induced a tech depression, and I put some distance between me and this project.
 
 Then after a while I saw my project lying in my closet, and I wondered why am I not finishing this project? Atleast the initial plan?
+Well, the intial plan had some motion sensing involved, and wanting to make the first iteration as bare bone as possible I had to skip that and go for magnetic switch sensores instead, due to lack of IO on the ESP8266.
 
 So I found a much easier IoT platform with alot less overhead than IBM Bluemix, AND with a functioning mobile app, also known as [thinger.io](http://thinger.io).
 
 I registered an account, read the tutorials, and made my initial automatic garage door opener project.
 
-This implemented will now automatically close the garage door after having been open a user specified time, aswell as send me an email if the door has been open longer than a user specified time. Of course it is also possible to open and close it manually.
+This implementation will now 
+
+- Open and close manually via web interface and mobile app.
+- Monitor garaga door state (open or closed).
+- Automatically close the garage door after having been open longer than a user specified time.
+- Send an alarm to my email if the door has been open for longer than a user specified time.
+
+
 I even got to use the EEPROM on the ESP8266, to store some initial values, in the event of a sudden reboot. Neat.
 
 This code below is the first iteration, and I have already discovered some bugs and issues I want to improve. More on that later.
