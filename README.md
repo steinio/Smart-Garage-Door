@@ -201,9 +201,6 @@ After uploading the code and activating the device, I went to my IBM Bluemix Dev
 ![](Images/bluemix1.PNG "IBM Bluemix Devices")
 
 By clicking on this device, I can see more information, like its last events and its payload.
-
-![](Images/bluemix2.PNG "IBM Bluemix Device Information")
-
 For a prettier and fully customizable vizualization of the data, I created a new board with custom cards.
 
 ![](Images/bluemix3.PNG "IBM Bluemix Device Data Visualization")
