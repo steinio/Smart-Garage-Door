@@ -197,13 +197,8 @@ void loop() {
 I had to modify the original "String payload = ..." code because it was missing escape characters and had unnecessary data.
 
 After uploading the code and activating the device, I went to my IBM Bluemix Device Dashboard to find my device was connected.
-
-![](Images/bluemix1.PNG "IBM Bluemix Devices")
-
 By clicking on this device, I can see more information, like its last events and its payload.
 For a prettier and fully customizable vizualization of the data, I created a new board with custom cards.
-
-![](Images/bluemix3.PNG "IBM Bluemix Device Data Visualization")
 
 The next step for me now will be to use my IBM Bluemix Platform and connect a sensor to the ESP8266 and read this to the platform.
 After that I will also try and subscribe to data, to be able to send data to the ESP8266 from the platform, enabling me to connect my smartphone or Raspberry Pi and communicating between them all, not only on the local network.
